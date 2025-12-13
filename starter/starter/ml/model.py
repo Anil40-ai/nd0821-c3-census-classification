@@ -31,7 +31,6 @@ def compute_slice_performance(
     return slice_metrics
 
 
-
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.

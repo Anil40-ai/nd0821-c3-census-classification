@@ -1,10 +1,11 @@
 import sys
 import os
 import pandas as pd
+import joblib
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from starter.starter.ml.data import process_data
+from starter.starter.ml.data import process_data  # noqa: E402
 
 
 def test_process_data_outputs():
@@ -33,6 +34,7 @@ def test_process_data_outputs():
     assert encoder is not None
     assert lb is not None
 
+
 def test_model_artifacts_exist():
     assert os.path.exists("starter/model/model.joblib")
     assert os.path.exists("starter/model/encoder.joblib")
@@ -40,9 +42,6 @@ def test_model_artifacts_exist():
 
 
 def test_model_prediction_shape():
-    import joblib
-    import pandas as pd
-
     model = joblib.load("starter/model/model.joblib")
     encoder = joblib.load("starter/model/encoder.joblib")
     lb = joblib.load("starter/model/lb.joblib")
@@ -72,5 +71,3 @@ def test_model_prediction_shape():
     preds = model.predict(X)
 
     assert preds.shape[0] == df.shape[0]
-
-
