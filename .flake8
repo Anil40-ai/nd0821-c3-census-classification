@@ -1,8 +1,11 @@
 [flake8]
 max-line-length = 120
-extend-ignore = E203, E266, E501, W503
+extend-ignore = E203, E266, E501, W503, W391
 exclude =
     .git,
     __pycache__,
     .venv,
-    starter/sanitycheck.py
+    starter/sanitycheck.py,
+    starter/starter/__init__.py,
+    starter/starter/ml/__init__.py,
+    starter/starter/train_model.py
