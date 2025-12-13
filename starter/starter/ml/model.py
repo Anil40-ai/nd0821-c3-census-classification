@@ -1,6 +1,37 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 
 
+def compute_slice_performance(
+    model, data, categorical_feature, encoder, lb, process_data_fn
+):
+    slice_metrics = {}
+
+    for category in data[categorical_feature].unique():
+        slice_df = data[data[categorical_feature] == category]
+
+        X_slice, y_slice, _, _ = process_data_fn(
+            slice_df,
+            categorical_features=[categorical_feature],
+            label="salary",
+            training=False,
+            encoder=encoder,
+            lb=lb,
+        )
+
+        preds = model.predict(X_slice)
+
+        precision, recall, fbeta = compute_model_metrics(y_slice, preds)
+
+        slice_metrics[category] = {
+            "precision": precision,
+            "recall": recall,
+            "fbeta": fbeta,
+        }
+
+    return slice_metrics
+
+
+
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.

@@ -44,6 +44,11 @@ def process_data(
         passed in.
     """
 
+    X.columns = X.columns.str.strip()
+
+    for col in categorical_features:
+        X[col] = X[col].str.strip()
+
     if label is not None:
         y = X[label]
         X = X.drop([label], axis=1)
@@ -62,7 +67,6 @@ def process_data(
         X_categorical = encoder.transform(X_categorical)
         try:
             y = lb.transform(y.values).ravel()
-        # Catch the case where y is None because we're doing inference.
         except AttributeError:
             pass
 
