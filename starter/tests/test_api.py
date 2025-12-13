@@ -3,8 +3,8 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from fastapi.testclient import TestClient
-from main import app
+from fastapi.testclient import TestClient  # noqa: E402
+from starter.main import app  # noqa: E402
 
 client = TestClient(app)
 
@@ -15,6 +15,8 @@ def test_get_root():
     assert response.json() == {
         "message": "Welcome to the Census Income Prediction API"
     }
+
+
 def test_post_predict_low_income():
     payload = {
         "age": 25,
@@ -39,6 +41,7 @@ def test_post_predict_low_income():
     assert response.status_code == 200
     assert response.json()["prediction"] == "<=50K"
 
+
 def test_post_predict_high_income():
     payload = {
         "age": 45,
@@ -56,9 +59,6 @@ def test_post_predict_high_income():
         "hours-per-week": 60,
         "native-country": "United-States",
     }
-
-    from fastapi.testclient import TestClient
-    from starter.main import app
 
     with TestClient(app) as client:
         response = client.post("/predict", json=payload)
